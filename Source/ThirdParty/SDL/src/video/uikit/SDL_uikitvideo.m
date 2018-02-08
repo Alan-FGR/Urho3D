@@ -179,7 +179,10 @@ UIKit_ComputeViewFrame(SDL_Window *window, UIScreen *screen)
     if (urhoPlaceholderView != NULL)
         return urhoPlaceholderView.bounds;
     
+<<<<<<< HEAD
     BOOL hasiOS7 = UIKit_IsSystemVersionAtLeast(7.0);
+=======
+>>>>>>> origin/sdl204
 #if !TARGET_OS_TV && (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0)
     BOOL hasiOS7 = UIKit_IsSystemVersionAtLeast(7.0);
 

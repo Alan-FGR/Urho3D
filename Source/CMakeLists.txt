@@ -19,7 +19,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
+<<<<<<< HEAD
 
+=======
+
+>>>>>>> origin/sdl204
 # Check existence of various header files and their functions required by some of the third-party libraries and Urho3D library
 # Set the CMake variables in this scope but only add the compiler defines in the respective library's scope
 include (CheckIncludeFile)
@@ -38,7 +42,11 @@ check_library_exists (m sincosf "" HAVE_SINCOSF)
 if (MINGW)
     include (CheckStructHasMember)
     check_struct_has_member (RTL_OSVERSIONINFOW dwOSVersionInfoSize minwindef.h\;winnt.h HAVE_RTL_OSVERSIONINFOW)
+<<<<<<< HEAD
 endif ()
+=======
+endif ()
+>>>>>>> origin/sdl204
 
 # Setup RPATH settings
 if (URHO3D_LIB_TYPE STREQUAL SHARED AND NOT WIN32 AND NOT ANDROID AND NOT IOS AND NOT TVOS AND NOT WEB)

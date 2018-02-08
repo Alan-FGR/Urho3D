@@ -172,7 +172,7 @@ unsigned Time::GetSystemTime()
 
 unsigned Time::GetTimeSinceEpoch()
 {
-    return (unsigned)time(NULL);
+    return (unsigned)time(nullptr);
 }
 
 String Time::GetTimeStamp()
@@ -193,6 +193,11 @@ void Time::Sleep(unsigned mSec)
     time.tv_nsec = (mSec % 1000) * 1000000;
     nanosleep(&time, 0);
 #endif
+}
+
+float Time::GetFramesPerSecond() const
+{
+    return 1.0f / timeStep_;
 }
 
 Timer::Timer()

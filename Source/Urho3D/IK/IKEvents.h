@@ -29,7 +29,12 @@ namespace Urho3D
 
 URHO3D_EVENT(E_IKEFFECTORTARGETCHANGED, IKEffectorTargetChanged)
 {
+<<<<<<< HEAD
     URHO3D_PARAM(P_EFFECTORNODE, EffectorNode);                // Node pointer
     URHO3D_PARAM(P_TARGETNODE, TargetNode);                // Node pointer
+=======
+    URHO3D_PARAM(P_EFFECTORNODE, EffectorNode);      // Node pointer
+    URHO3D_PARAM(P_TARGETNODE, TargetNode);        // Node pointer
+>>>>>>> origin/sdl204
 }
 }

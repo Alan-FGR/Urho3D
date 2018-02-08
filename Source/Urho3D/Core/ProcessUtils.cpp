@@ -162,7 +162,7 @@ static void GetCPUData(struct CpuCoreCount* data)
 #elif !defined(__EMSCRIPTEN__) && !defined(TVOS)
 static void GetCPUData(struct cpu_id_t* data)
 {
-    if (cpu_identify(0, data) < 0)
+    if (cpu_identify(nullptr, data) < 0)
     {
         data->num_logical_cpus = 1;
         data->num_cores = 1;
@@ -187,7 +187,7 @@ void InitFPU()
 void ErrorDialog(const String& title, const String& message)
 {
 #ifndef MINI_URHO
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, title.CString(), message.CString(), 0);
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, title.CString(), message.CString(), nullptr);
 #endif
 }
 
@@ -230,7 +230,7 @@ void PrintUnicode(const String& str, bool error)
             return;
         WString strW(str);
         DWORD charsWritten;
-        WriteConsoleW(stream, strW.CString(), strW.Length(), &charsWritten, 0);
+        WriteConsoleW(stream, strW.CString(), strW.Length(), &charsWritten, nullptr);
     }
 #else
     fprintf(error ? stderr : stdout, "%s", str.CString());
@@ -380,13 +380,17 @@ String GetConsoleInput()
                     // We have disabled echo, so echo manually
                     wchar_t out = c;
                     DWORD charsWritten;
-                    WriteConsoleW(output, &out, 1, &charsWritten, 0);
+                    WriteConsoleW(output, &out, 1, &charsWritten, nullptr);
                     currentLine.AppendUTF8(c);
                 }
             }
         }
     }
+<<<<<<< HEAD
 #elif !defined(__ANDROID__) && !defined(IOS) && !defined(TVOS)
+=======
+#elif !defined(__ANDROID__) && !defined(IOS) && !defined(TVOS) && !defined(UWP)
+>>>>>>> origin/sdl204
     int flags = fcntl(STDIN_FILENO, F_GETFL);
     fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
     for (;;)
@@ -545,7 +549,7 @@ String GetLoginName()
     struct passwd *p = getpwuid(getuid());
     if (p != NULL) 
         return p->pw_name;
-#elif defined(_WIN32)
+#elif defined(_WIN32) && !defined(UWP)
     char name[UNLEN + 1];
     DWORD len = UNLEN + 1;
     if (GetUserName(name, &len))
@@ -577,7 +581,7 @@ String GetHostName()
     char buffer[256]; 
     if (gethostname(buffer, 256) == 0) 
         return buffer; 
-#elif defined(_WIN32)
+#elif defined(_WIN32) && !defined(UWP)
     char buffer[MAX_COMPUTERNAME_LENGTH + 1]; 
     DWORD len = MAX_COMPUTERNAME_LENGTH + 1; 
     if (GetComputerName(buffer, &len))
@@ -587,8 +591,8 @@ String GetHostName()
 }
 
 // Disable Windows OS version functionality when compiling mini version for Web, see https://github.com/urho3d/Urho3D/issues/1998
-#if defined(_WIN32) && defined(HAVE_RTL_OSVERSIONINFOW) && !defined(MINI_URHO)
-typedef NTSTATUS (WINAPI *RtlGetVersionPtr)(PRTL_OSVERSIONINFOW);
+#if defined(_WIN32) && defined(HAVE_RTL_OSVERSIONINFOW) && !defined(MINI_URHO) && !defined(UWP)
+using RtlGetVersionPtr = NTSTATUS (WINAPI *)(PRTL_OSVERSIONINFOW);
 
 static void GetOS(RTL_OSVERSIONINFOW *r)
 {
@@ -608,7 +612,7 @@ String GetOSVersion()
     struct utsname u;
     if (uname(&u) == 0)
         return String(u.sysname) + " " + u.release; 
-#elif defined(_WIN32) && defined(HAVE_RTL_OSVERSIONINFOW) && !defined(MINI_URHO)
+#elif defined(_WIN32) && defined(HAVE_RTL_OSVERSIONINFOW) && !defined(MINI_URHO) && !defined(UWP)
     RTL_OSVERSIONINFOW r;
     GetOS(&r); 
     // https://msdn.microsoft.com/en-us/library/windows/desktop/ms724832(v=vs.85).aspx
