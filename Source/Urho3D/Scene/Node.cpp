@@ -136,9 +136,11 @@ bool Node::Save(Serializer& dest) const
         VectorBuffer compBuffer;
         if (!component->Save(compBuffer))
             return false;
+
+		Mono::Callback(Component_Save, component, &compBuffer);
+
         dest.WriteVLE(compBuffer.GetSize());
         dest.Write(compBuffer.GetData(), compBuffer.GetSize());
-		Mono::Callback(Component_Save, component, &dest);
     }
 
     // Write child nodes
@@ -1563,7 +1565,7 @@ bool Node::Load(Deserializer& source, SceneResolver& resolver, bool readChildren
             resolver.AddComponent(compID, newComponent);
             // Do not abort if component fails to load, as the component buffer is nested and we can skip to the next
             newComponent->Load(compBuffer);
-			Mono::Callback(Component_Load, newComponent, &source);
+			Mono::Callback(Component_Load, newComponent, &compBuffer, compBuffer.GetSize());
         }
     }
 
