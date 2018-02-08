@@ -8,6 +8,8 @@ enum CallbackType
     Component_OnSceneSet,
     Component_SaveXml,
     Component_LoadXml,
+	Component_Save, //binary
+	Component_Load, //binary
     Component_AttachedToNode,
     Component_OnNodeSetEnabled,
 
